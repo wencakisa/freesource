@@ -7,7 +7,8 @@ from .models import Category, Resource, Comment
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ('name',)
+        fields = ('id', 'name')
+        read_only_fields = ('id',)
 
 
 class CommentSerializer(serializers.ModelSerializer):
