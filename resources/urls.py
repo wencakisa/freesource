@@ -4,6 +4,9 @@ from rest_framework_nested import routers as nested_routers
 
 from .views import CategoryListView, ResourceCategoryList, ResourceViewSet, CommentViewSet
 
+
+app_name = 'resources'
+
 urlpatterns = [
     url(r'^categories/$', CategoryListView.as_view(), name='category-list'),
     url(
@@ -14,7 +17,7 @@ urlpatterns = [
 ]
 
 resource_router = routers.DefaultRouter()
-resource_router.register(r'resources', ResourceViewSet)
+resource_router.register(r'resources', ResourceViewSet, base_name='resources')
 
 resource_comments_router = nested_routers.NestedDefaultRouter(
     resource_router, r'resources', lookup='resource'
