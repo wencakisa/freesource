@@ -12,6 +12,10 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+    def save(self, *args, **kwargs):
+        self.name = self.name.lower().title()
+        super().save(*args, **kwargs)
+
 
 class Resource(models.Model):
     title = models.CharField(unique=True, max_length=255, blank=False)
