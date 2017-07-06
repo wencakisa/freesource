@@ -3,7 +3,20 @@ from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 
-from .serializers import UserLoginSerializer
+from .serializers import UserRegisterSerializer, UserLoginSerializer
+
+
+class UserRegister(generics.CreateAPIView):
+    serializer_class = UserRegisterSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+
+        headers = self.get_success_headers(serializer)
+
+        return Response(serializer.validated_data, status=status.HTTP_201_CREATED, headers=headers)
 
 
 class UserLogin(generics.CreateAPIView):
@@ -25,12 +38,11 @@ class UserLogin(generics.CreateAPIView):
             )
 
         token = Token.objects.get(user=user)
-        headers = self.get_success_headers(serializer)
-
         resp_data = {
             'token': token.key,
             'id': user.id,
-            'username': user.username
         }
 
+        headers = self.get_success_headers(serializer)
+        
         return Response(resp_data, status=status.HTTP_200_OK, headers=headers)
