@@ -1,7 +1,7 @@
-from rest_framework.test import APITestCase, APIClient
-from rest_framework import status
 from django.contrib.auth.models import User
 from django.shortcuts import reverse
+from rest_framework.test import APITestCase, APIClient
+from rest_framework import status
 
 from .models import Category, Resource, Comment
 
